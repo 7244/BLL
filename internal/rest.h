@@ -385,8 +385,8 @@ _BLL_fdec(_P(NodeReference_t), NewNode
       _P(NodeReference_t) dstnr
     ){
       _P(Node_t) *srcNode = _BLL_fcall(AcquireLinkNode, srcnr);
-      srcNode->PrevNodeReference = dstnr;
       _P(NodeReference_t) prev_id = srcNode->PrevNodeReference;
+      srcNode->PrevNodeReference = dstnr;
       _BLL_fcall(ReleaseLinkNode, srcnr, srcNode);
 
       _P(Node_t) *prevNode = _BLL_fcall(AcquireLinkNode, prev_id);
