@@ -45,7 +45,7 @@
       }
       /* makes statement if (nr) possible*/
       operator bool const() {
-        return iic() != false;
+        return iic() != true;
       }
 
       /* get integer */
