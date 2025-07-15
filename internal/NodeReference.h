@@ -43,6 +43,10 @@
       bool iic() const {
         return *this == _P(gnric)();
       }
+      /* makes statement if (nr) possible*/
+      operator bool const() {
+        return iic() == false;
+      }
 
       /* get integer */
       BLL_set_type_node &gint(){
