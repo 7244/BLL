@@ -44,7 +44,7 @@
         return *this == _P(gnric)();
       }
       /* makes statement if (nr) possible*/
-      operator bool const() {
+      operator bool () const{
         return iic() != true;
       }
 

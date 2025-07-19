@@ -50,7 +50,7 @@
         BLL_set_type_node norm = _P(_NodeList_Normalize)(&bll->NodeList, cnr);
         BLL_set_type_node div = norm / 8;
         uint8_t mod = norm % 8;
-        _BLL_nrtra_this->_RecycledArray[div] = (uint8_t)1 << mod;
+        _BLL_nrtra_this->_RecycledArray[div] |= (uint8_t)1 << mod;
         cnr = _P(_NodeList__GetNextRecycledFromID)(&bll->NodeList, cnr);
       }
     #endif
