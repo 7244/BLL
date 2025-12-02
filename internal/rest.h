@@ -735,6 +735,10 @@ _BLL_fdec(void, Close
       _P(NodeData_t) &operator[](_P(NodeReference_t) NR){
         return *GetNodeDataPointer(NR);
       }
+      #if BLL_set_Usage && BLL_set_LinkSentinel && defined(BLL_set_NodeReference_iterator)
+        auto begin() { return BLL_set_NodeReference_iterator(GetNodeFirst()); }
+        auto end() { return BLL_set_NodeReference_iterator(GetNodeLast()); }
+      #endif
     #else
       _P(NodeData_t) *operator[](_P(NodeReference_t) NR){
         return GetNodeDataPointer(NR);
@@ -768,8 +772,8 @@ _BLL_fdec(void, Close
 #if !BLL_set_Recycle && BLL_set_IntegerNR && !BLL_set_LinkSentinel
   #if BLL_set_Usage
     #if BLL_set_Language == 1
-      _P(NodeData_t) *begin() { return &operator[](0); }
-      _P(NodeData_t) *end() { return &operator[](Usage()); }
+      //_P(NodeData_t) *begin() { return &operator[](0); }
+      //_P(NodeData_t) *end() { return &operator[](Usage()); }
     #endif
   #endif
 

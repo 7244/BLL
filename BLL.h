@@ -163,3 +163,4 @@
 #undef BLL_set_AreWeInsideStruct
 #undef BLL_set_prefix
 #undef BLL_set_Mark
+#undef BLL_set_NodeReference_iterator
