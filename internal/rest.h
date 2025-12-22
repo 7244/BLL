@@ -577,7 +577,7 @@ _BLL_fdec(_P(NodeReference_t), NewNode
         _BLL_fcall(
           SetNodeData,
           ret,
-          NodeData
+          static_cast<remove_reference_t<_P(NodeData_t)>&&>(NodeData)
         );
         return ret;
       }
@@ -636,7 +636,7 @@ _BLL_fdec(_P(NodeReference_t), NewNode
         _BLL_fcall(
           SetNodeData,
           ret,
-          NodeData
+          static_cast<remove_reference_t<_P(NodeData_t)>&&>(NodeData)
         );
         return ret;
       }
