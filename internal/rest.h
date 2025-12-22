@@ -215,6 +215,20 @@ _BLL_fdec(void, SetNodeData,
 
   _BLL_fcall(ReleaseNode, node_id, node);
 }
+#if BLL_set_Language == 1 && defined(_BLL_HaveConstantNodeData)
+  _BLL_fdec(void, SetNodeData,
+    _P(NodeReference_t) node_id,
+    _P(NodeData_t)&& NodeData
+  ){
+    _P(Node_t) *node = _BLL_fcall(AcquireNode, node_id);
+
+    _P(NodeData_t) *dst = (_P(NodeData_t) *)((uint8_t *)node + _BLL_fcall(_ndoffset));
+
+    *dst = static_cast<remove_reference_t<_P(NodeData_t)>&&>(NodeData);
+
+    _BLL_fcall(ReleaseNode, node_id, node);
+  }
+#endif
 
 #if BLL_set_Usage
   _BLL_fdec(BLL_set_type_node, Usage
@@ -522,6 +536,41 @@ _BLL_fdec(_P(NodeReference_t), NewNode
 
       return sentinel_node_id;
     }
+    _BLL_fdec(_P(NodeReference_t), push_front,
+      const _P(NodeData_t)
+      #if defined(_BLL_HaveConstantNodeData)
+        #if BLL_set_Language == 1
+          &
+        #endif
+      #else
+        *
+      #endif
+      NodeData
+    ){
+      _P(NodeReference_t) ret = _BLL_fcall(NewNodeFirst);
+      _BLL_fcall(
+        SetNodeData,
+        ret,
+        #if defined(_BLL_HaveConstantNodeData)
+          &
+        #endif
+        NodeData
+      );
+      return ret;
+    }
+    #if BLL_set_Language == 1 && defined(_BLL_HaveConstantNodeData)
+      _BLL_fdec(_P(NodeReference_t), push_front,
+        _P(NodeData_t)&& NodeData
+      ){
+        _P(NodeReference_t) ret = _BLL_fcall(NewNodeFirst);
+        _BLL_fcall(
+          SetNodeData,
+          ret,
+          NodeData
+        );
+        return ret;
+      }
+    #endif
     _BLL_fdec(_P(NodeReference_t), NewNodeLast
     ){
       _P(NodeReference_t) new_node_id = _BLL_fcall(_NewNode_NoConstruct);
@@ -546,6 +595,41 @@ _BLL_fdec(_P(NodeReference_t), NewNode
 
       return sentinel_node_id;
     }
+    _BLL_fdec(_P(NodeReference_t), push_back,
+      const _P(NodeData_t)
+      #if defined(_BLL_HaveConstantNodeData)
+        #if BLL_set_Language == 1
+          &
+        #endif
+      #else
+        *
+      #endif
+      NodeData
+    ){
+      _P(NodeReference_t) ret = _BLL_fcall(NewNodeLast);
+      _BLL_fcall(
+        SetNodeData,
+        ret,
+        #if defined(_BLL_HaveConstantNodeData)
+          &
+        #endif
+        NodeData
+      );
+      return ret;
+    }
+    #if BLL_set_Language == 1 && defined(_BLL_HaveConstantNodeData)
+      _BLL_fdec(_P(NodeReference_t), push_back,
+        _P(NodeData_t)&& NodeData
+      ){
+        _P(NodeReference_t) ret = _BLL_fcall(NewNodeLast);
+        _BLL_fcall(
+          SetNodeData,
+          ret,
+          NodeData
+        );
+        return ret;
+      }
+    #endif
 
     _BLL_fdec(bool, IsNRSentinel,
       _P(NodeReference_t) nr
