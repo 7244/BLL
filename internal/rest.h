@@ -512,6 +512,17 @@ _BLL_fdec(_P(NodeReference_t), NewNode
       return ret;
     }
 
+  #if defined(BLL_set_iterator)
+    _BLL_fdec(BLL_set_iterator_type(_P(t)), begin
+    ) {
+      return BLL_set_iterator(_P(t), GetNodeFirst());
+    }
+    _BLL_fdec(BLL_set_iterator_type(_P(t)), end
+    ) {
+      return BLL_set_iterator(_P(t), dst);
+    }
+  #endif
+
     _BLL_fdec(_P(NodeReference_t), NewNodeFirst
     ){
       _P(NodeReference_t) new_node_id = _BLL_fcall(_NewNode_NoConstruct);
