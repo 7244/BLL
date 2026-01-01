@@ -559,14 +559,11 @@ _BLL_fdec(_P(NodeReference_t), NewNode
       NodeData
     ){
       _P(NodeReference_t) ret = _BLL_fcall(NewNodeFirst);
-      _BLL_fcall(
-        SetNodeData,
-        ret,
-        #if defined(_BLL_HaveConstantNodeData)
-          &
-        #endif
-        NodeData
-      );
+      #if defined(_BLL_HaveConstantNodeData)
+        _BLL_fcall(SetNodeData, ret, &NodeData);
+      #else
+        _BLL_fcall(SetNodeData, ret, NodeData);
+      #endif
       return ret;
     }
     #if BLL_set_Language == 1 && defined(_BLL_HaveConstantNodeData)
@@ -618,14 +615,11 @@ _BLL_fdec(_P(NodeReference_t), NewNode
       NodeData
     ){
       _P(NodeReference_t) ret = _BLL_fcall(NewNodeLast);
-      _BLL_fcall(
-        SetNodeData,
-        ret,
-        #if defined(_BLL_HaveConstantNodeData)
-          &
-        #endif
-        NodeData
-      );
+      #if defined(_BLL_HaveConstantNodeData)
+        _BLL_fcall(SetNodeData, ret, &NodeData);
+      #else
+        _BLL_fcall(SetNodeData, ret, NodeData);
+      #endif
       return ret;
     }
     #if BLL_set_Language == 1 && defined(_BLL_HaveConstantNodeData)
