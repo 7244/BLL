@@ -224,7 +224,7 @@ _BLL_fdec(void, SetNodeData,
 
     _P(NodeData_t) *dst = (_P(NodeData_t) *)((uint8_t *)node + _BLL_fcall(_ndoffset));
 
-    *dst = static_cast<remove_reference_t<_P(NodeData_t)>&&>(NodeData);
+    *dst = static_cast<__remove_reference_t<_P(NodeData_t)>&&>(NodeData);
 
     _BLL_fcall(ReleaseNode, node_id, node);
   }
@@ -577,7 +577,7 @@ _BLL_fdec(_P(NodeReference_t), NewNode
         _BLL_fcall(
           SetNodeData,
           ret,
-          static_cast<remove_reference_t<_P(NodeData_t)>&&>(NodeData)
+          static_cast<__remove_reference_t<_P(NodeData_t)>&&>(NodeData)
         );
         return ret;
       }
@@ -636,7 +636,7 @@ _BLL_fdec(_P(NodeReference_t), NewNode
         _BLL_fcall(
           SetNodeData,
           ret,
-          static_cast<remove_reference_t<_P(NodeData_t)>&&>(NodeData)
+          static_cast<__remove_reference_t<_P(NodeData_t)>&&>(NodeData)
         );
         return ret;
       }
