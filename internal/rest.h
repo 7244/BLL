@@ -547,17 +547,20 @@ _BLL_fdec(_P(NodeReference_t), NewNode
 
       return sentinel_node_id;
     }
-    _BLL_fdec(_P(NodeReference_t), push_front,
-      const _P(NodeData_t)
-      #if defined(_BLL_HaveConstantNodeData)
-        #if BLL_set_Language == 1
-          &
-        #endif
-      #else
-        *
-      #endif
-      NodeData
-    ){
+    #if defined(_BLL_HaveConstantNodeData) && BLL_set_Language == 1
+      _BLL_fdec(_P(NodeReference_t), push_front,
+        const _P(NodeData_t) &NodeData
+      )
+    #elif defined(_BLL_HaveConstantNodeData)
+      _BLL_fdec(_P(NodeReference_t), push_front,
+        const _P(NodeData_t) NodeData
+      )
+    #else
+      _BLL_fdec(_P(NodeReference_t), push_front,
+        const _P(NodeData_t) *NodeData
+      )
+    #endif
+    {
       _P(NodeReference_t) ret = _BLL_fcall(NewNodeFirst);
       #if defined(_BLL_HaveConstantNodeData)
         _BLL_fcall(SetNodeData, ret, &NodeData);
@@ -603,17 +606,20 @@ _BLL_fdec(_P(NodeReference_t), NewNode
 
       return sentinel_node_id;
     }
-    _BLL_fdec(_P(NodeReference_t), push_back,
-      const _P(NodeData_t)
-      #if defined(_BLL_HaveConstantNodeData)
-        #if BLL_set_Language == 1
-          &
-        #endif
-      #else
-        *
-      #endif
-      NodeData
-    ){
+    #if defined(_BLL_HaveConstantNodeData) && BLL_set_Language == 1
+      _BLL_fdec(_P(NodeReference_t), push_back,
+        const _P(NodeData_t) &NodeData
+      )
+    #elif defined(_BLL_HaveConstantNodeData)
+      _BLL_fdec(_P(NodeReference_t), push_back,
+        const _P(NodeData_t) NodeData
+      )
+    #else
+      _BLL_fdec(_P(NodeReference_t), push_back,
+        const _P(NodeData_t) *NodeData
+      )
+    #endif
+    {
       _P(NodeReference_t) ret = _BLL_fcall(NewNodeLast);
       #if defined(_BLL_HaveConstantNodeData)
         _BLL_fcall(SetNodeData, ret, &NodeData);
