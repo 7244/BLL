@@ -151,7 +151,11 @@ _BLL_fdec(bool, inri,
 
 _BLL_fdec(_P(Node_t) *, GetNodeUnsafe,
   _P(NodeReference_t) nr
-){
+)
+#if BLL_set_Language == 1
+  const
+#endif
+{
   return (_P(Node_t) *)_P(_NodeList_GetNode)(&_BLL_this->NodeList, *_P(gnrint)(&nr));
 }
 
@@ -159,26 +163,42 @@ _BLL_fdec(_P(Node_t) *, GetNodeUnsafe,
   /* backward compatibility */
   _BLL_fdec(__forceinline _P(Node_t) *, GetNodeByReference,
     _P(NodeReference_t) node_id
-  ){
+  )
+  #if BLL_set_Language == 1
+    const
+  #endif
+  {
     return _BLL_fcall(GetNodeUnsafe, node_id);
   }
 #endif
 
 _BLL_fdec(_P(Node_t) *, AcquireNode,
   _P(NodeReference_t) nr
-){
+)
+#if BLL_set_Language == 1
+  const
+#endif
+{
   return _BLL_fcall(GetNodeUnsafe, nr);
 }
 
 _BLL_fdec(void, ReleaseNode,
   _P(NodeReference_t) nr,
   _P(Node_t) *n
-){
+)
+#if BLL_set_Language == 1
+  const
+#endif
+{
   /* ~mazurek~ */
 }
 
 _BLL_fdec(uintptr_t, _ndoffset
-){
+)
+#if BLL_set_Language == 1
+  const
+#endif
+{
   #if defined(_BLL_HaveConstantNodeData)
     return offsetof(_P(Node_t), data);
   #else
@@ -193,7 +213,11 @@ _BLL_fdec(uintptr_t, _ndoffset
 #if !BLL_set_MultiThread
   _BLL_fdec(_P(NodeData_t) *, GetNodeDataPointer,
     _P(NodeReference_t) node_id
-  ){
+  )
+  #if BLL_set_Language == 1
+    const
+  #endif
+  {
     _P(Node_t) *n = _BLL_fcall(GetNodeByReference, node_id);
     return (_P(NodeData_t) *)((uint8_t *)n + _BLL_fcall(_ndoffset));
   }
@@ -287,13 +311,21 @@ _BLL_fdec(void, _Node_Destruct,
 
 _BLL_fdec(_P(Node_t) *, AcquireLinkNode,
   _P(NodeReference_t) node_id
-){
+)
+#if BLL_set_Language == 1
+  const
+#endif
+{
   return _BLL_fcall(AcquireNode, node_id);
 }
 _BLL_fdec(void, ReleaseLinkNode,
   _P(NodeReference_t) node_id,
   _P(Node_t) *node
-){
+)
+#if BLL_set_Language == 1
+  const
+#endif
+{
   _BLL_fcall(ReleaseNode, node_id, node);
 }
 
@@ -496,7 +528,11 @@ _BLL_fdec(_P(NodeReference_t), NewNode
 
   #if BLL_set_LinkSentinel
     _BLL_fdec(_P(NodeReference_t), GetNodeFirst
-    ){
+    )
+#if BLL_set_Language == 1
+      const
+#endif
+    {
       #if BLL_set_MultiThread
         #error other thread can change sentinel. solve it
       #endif
@@ -516,16 +552,13 @@ _BLL_fdec(_P(NodeReference_t), NewNode
       return ret;
     }
 
-  #if defined(BLL_set_iterator)
-    _BLL_fdec(BLL_set_iterator_type(_P(t)), begin
-    ) {
-      return BLL_set_iterator(_P(t), GetNodeFirst());
-    }
-    _BLL_fdec(BLL_set_iterator_type(_P(t)), end
-    ) {
-      return BLL_set_iterator(_P(t), dst);
-    }
-  #endif
+    #if defined(BLL_set_iterator)
+      _BLL_fdec(BLL_set_iterator_type(_P(t)), begin){ return BLL_set_iterator(_P(t), GetNodeFirst()); }
+      _BLL_fdec(BLL_set_iterator_type(_P(t)), end){ return BLL_set_iterator(_P(t), dst); }
+
+      _BLL_fdec(BLL_set_iterator_type(const _P(t)), begin) const{ return BLL_set_iterator(const _P(t), GetNodeFirst()); }
+      _BLL_fdec(BLL_set_iterator_type(const _P(t)), end) const{ return BLL_set_iterator(const _P(t), dst); }
+    #endif
 
     _BLL_fdec(_P(NodeReference_t), NewNodeFirst
     ){
@@ -832,12 +865,14 @@ _BLL_fdec(void, Close
   #if !BLL_set_MultiThread
     #if defined(_BLL_HaveConstantNodeData)
       _P(NodeData_t) &operator[](_P(NodeReference_t) NR){
+        return const_cast<_P(NodeData_t)&>(static_cast<const _P(t)&>(*this)[NR]);
+      }
+      const _P(NodeData_t) &operator[](_P(NodeReference_t) NR) const{
         return *GetNodeDataPointer(NR);
       }
     #else
-      _P(NodeData_t) *operator[](_P(NodeReference_t) NR){
-        return GetNodeDataPointer(NR);
-      }
+      _P(NodeData_t) *operator[](_P(NodeReference_t) NR){ return GetNodeDataPointer(NR); }
+      const _P(NodeData_t) *operator[](_P(NodeReference_t) NR) const{ return GetNodeDataPointer(NR); }
     #endif
   #endif
 
@@ -867,8 +902,11 @@ _BLL_fdec(void, Close
 #if !BLL_set_Recycle && BLL_set_IntegerNR && !BLL_set_LinkSentinel
   #if BLL_set_Usage
     #if BLL_set_Language == 1
-      _P(NodeData_t) *begin() { return &operator[](0); }
-      _P(NodeData_t) *end() { return &operator[](Usage()); }
+      _P(NodeData_t) *begin(){ return &operator[](0); }
+      _P(NodeData_t) *end(){ return &operator[](Usage()); }
+
+      const _P(NodeData_t) *begin() const{ return &operator[](0); }
+      const _P(NodeData_t) *end() const{ return &operator[](Usage()); }
     #endif
   #endif
 
