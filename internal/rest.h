@@ -255,11 +255,10 @@ _BLL_fdec(void, SetNodeData,
 #endif
 
 #if BLL_set_Usage
-  _BLL_fdec(BLL_set_type_node, Usage
-  ) 
-#if BLL_set_Language == 1
-  const
-#endif
+  _BLL_fdec(BLL_set_type_node, Usage) 
+  #if BLL_set_Language == 1
+    const
+  #endif
   {
     return _P(_NodeList_Usage)(&_BLL_this->NodeList)
       #if BLL_set_LinkSentinel
