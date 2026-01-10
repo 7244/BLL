@@ -26,9 +26,9 @@
         old_capacity * _P(_NodeList_GetNodeSize)(&bll->NodeList)
       );
 
-    #if BLL_set_Language == 1
-      typename
-    #endif
+      #if BLL_set_Language == 1
+        typename
+      #endif
       _P(t)::nrtra_t nrtra;
       _P(NodeReference_t) node_id;
       nrtra.Open(bll, &node_id);
