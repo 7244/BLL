@@ -6,6 +6,7 @@
       static _P(NodeReference_t) _P(_NodeReference_Prev)(_P(NodeReference_t) *, _P(t) *);
       static _P(NodeReference_t) _P(gnric)();
       static BLL_set_type_node *_P(gnrint)(_P(NodeReference_t) *);
+      static const BLL_set_type_node *_P(gnrint)(const _P(NodeReference_t) *);
       static void _P(snric)(_P(NodeReference_t) *);
     #endif
   #endif
@@ -49,9 +50,16 @@
       }
 
       /* get integer */
-      BLL_set_type_node &gint(){
+      BLL_set_type_node &gint() {
         return *_P(gnrint)(this);
       }
+
+      #if BLL_set_Language == 1
+        /* const get integer */
+        const BLL_set_type_node &gint() const {
+          return *_P(gnrint)(this);
+        }
+      #endif
 
       #if BLL_set_Link == 1
         _P(NodeReference_t) Next(_P(t) *list) { return _P(_NodeReference_Next)(this, list); }
@@ -70,19 +78,39 @@
   typedef BLL_set_type_node _P(NodeReference_t);
 #endif
 
-/* get node reference integer */
-static
-BLL_set_type_node *
-_P(gnrint)
-(
-  _P(NodeReference_t) *nr
-){
+/* get node reference integer shared implementation */
+static void*
+_P(gnrint_impl)(void* nr_void) {
   #if BLL_set_IntegerNR == 0
-    return &nr->NRI;
-  #elif BLL_set_IntegerNR == 1
-    return nr;
+    return &(( _P(NodeReference_t)* )nr_void)->NRI;
+  #else
+    return nr_void;
   #endif
 }
+
+/* non-const */
+/* get node reference integer */
+static 
+BLL_set_type_node*
+_P(gnrint)
+(
+  _P(NodeReference_t)* nr
+){
+  return (BLL_set_type_node*)_P(gnrint_impl)((void*)nr);
+}
+
+#if BLL_set_Language == 1
+  /* const */
+  /* get node reference integer */
+  static
+  const BLL_set_type_node*
+  _P(gnrint)
+  (
+    const _P(NodeReference_t)* nr
+  ){
+  return (const BLL_set_type_node*)_P(gnrint_impl)((void*)nr);
+  }
+#endif
 
 /* is node refence equal */
 static
