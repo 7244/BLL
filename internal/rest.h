@@ -174,22 +174,14 @@ _BLL_fdec(_P(Node_t) *, GetNodeUnsafe,
 
 _BLL_fdec(_P(Node_t) *, AcquireNode,
   _P(NodeReference_t) nr
-)
-#if BLL_set_Language == 1
-  const
-#endif
-{
+){
   return _BLL_fcall(GetNodeUnsafe, nr);
 }
 
 _BLL_fdec(void, ReleaseNode,
   _P(NodeReference_t) nr,
   _P(Node_t) *n
-)
-#if BLL_set_Language == 1
-  const
-#endif
-{
+){
   /* ~mazurek~ */
 }
 
@@ -310,21 +302,13 @@ _BLL_fdec(void, _Node_Destruct,
 
 _BLL_fdec(_P(Node_t) *, AcquireLinkNode,
   _P(NodeReference_t) node_id
-)
-#if BLL_set_Language == 1
-  const
-#endif
-{
+){
   return _BLL_fcall(AcquireNode, node_id);
 }
 _BLL_fdec(void, ReleaseLinkNode,
   _P(NodeReference_t) node_id,
   _P(Node_t) *node
-)
-#if BLL_set_Language == 1
-  const
-#endif
-{
+){
   _BLL_fcall(ReleaseNode, node_id, node);
 }
 
@@ -528,9 +512,9 @@ _BLL_fdec(_P(NodeReference_t), NewNode
   #if BLL_set_LinkSentinel
     _BLL_fdec(_P(NodeReference_t), GetNodeFirst
     )
-#if BLL_set_Language == 1
+    #if BLL_set_Language == 1
       const
-#endif
+    #endif
     {
       #if BLL_set_MultiThread
         #error other thread can change sentinel. solve it
