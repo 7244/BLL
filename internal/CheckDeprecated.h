@@ -14,13 +14,13 @@
   #error deprecated setting. now there is only BLL_set_IsNodeRecycled
 #endif
 #if defined(BLL_set_StoreFormat0_alloc_open) || defined(BLL_set_StoreFormat1_alloc_open)
-  #error deprecated setting. now it's BLL_set_alloc_open
+  #error deprecated setting. now its BLL_set_alloc_open
 #endif
 #if defined(BLL_set_StoreFormat0_alloc_resize)
-  #error deprecated setting. now it's BLL_set_alloc_resize
+  #error deprecated setting. now its BLL_set_alloc_resize
 #endif
 #if defined(BLL_set_StoreFormat0_alloc_close) || defined(BLL_set_StoreFormat1_alloc_close)
-  #error deprecated setting. now it's BLL_set_alloc_close
+  #error deprecated setting. now its BLL_set_alloc_close
 #endif
 #ifdef BLL_set_BaseLibrary
   #error BLL_set_BaseLibrary is no longer supported.
